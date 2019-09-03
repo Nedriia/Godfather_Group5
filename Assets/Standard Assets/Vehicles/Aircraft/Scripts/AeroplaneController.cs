@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UnityStandardAssets.Vehicles.Aeroplane
 {
@@ -24,7 +25,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField] private float m_AutoPitchLevel = 0.2f;       // How much the aeroplane tries to level when not pitching.
 
         [Header("Engine")]
-        [SerializeField] private float m_MaxEnginePower = 40f;        // The maximum output of the engine.
+        public float m_MaxEnginePower = 40f;        // The maximum output of the engine.
         [SerializeField] private float m_ThrottleChangeSpeed = 0.3f;  // The speed with which the throttle changes.
         [SerializeField] private float m_DragIncreaseFactor = 0.001f; // how much drag should increase with speed.
 
@@ -34,10 +35,26 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField] private float _altitude;
         [SerializeField] private float booster_Torque = 10;
 
+        [Header("Jetpack")]
+        public float MaxFuelCapacity;
+        public float FuelReductionFactor;
+        public float RefillSpeed;
+        public KeyCode ActivateJetpackInput;
+        public Image Jauge;
+        float Fuel;
+        bool CanUseJetpack;
+
+        [Header("Roll multiplier")]
+        public float rollMultiplier;
+
+     
+
         public float Altitude { get; private set; }                     // The aeroplane's height above the ground.
-        public float Throttle { get; private set; }                     // The amount of throttle being used.
+        [HideInInspector]
+        public float Throttle;                    // The amount of throttle being used.
         public bool AirBrakes { get; private set; }                     // Whether or not the air brakes are being applied.
-        public float ForwardSpeed { get; private set; }                 // How fast the aeroplane is traveling in it's forward direction.
+        [HideInInspector]
+        public float ForwardSpeed;                // How fast the aeroplane is traveling in it's forward direction.
         public float EnginePower { get; private set; }                  // How much power the engine is being given.
         public float MaxEnginePower{ get { return m_MaxEnginePower; }}    // The maximum output of the engine.
         public float RollAngle { get; private set; }
@@ -53,7 +70,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         private float m_OriginalAngularDrag;  // The angular drag when the scene starts.
         private float m_AeroFactor;
         private float m_BankedTurnAmount;
-        private Rigidbody m_Rigidbody;
+        [HideInInspector]
+        public Rigidbody m_Rigidbody;
 
 
         private void Start()
@@ -63,15 +81,18 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             m_OriginalDrag = m_Rigidbody.drag;
             m_OriginalAngularDrag = m_Rigidbody.angularDrag;
 
-			//for (int i = 0; i < transform.childCount; i++ )
-			//{
-			//	foreach (var componentsInChild in transform.GetChild(i).GetComponentsInChildren<WheelCollider>())
-			//	{
-			//		componentsInChild.motorTorque = 0.18f;
-			//	}
-			//}
+            Fuel = MaxFuelCapacity;
+            CanUseJetpack = true;
         }
 
+        private void Update()
+        {
+            if (Fuel <= 0) CanUseJetpack = false;
+
+            if (!CanUseJetpack) Refill();
+
+            Jauge.GetComponent<Image>().fillAmount = Fuel / MaxFuelCapacity;
+        }
 
         public void Move(float rollInput, float pitchInput, float yawInput, float throttleInput, bool airBrakes)
         {
@@ -88,8 +109,6 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
             CalculateRollAndPitchAngles();
 
-            //AutoLevel();
-
             CalculateForwardSpeed();
 
             ControlThrottle();
@@ -97,10 +116,12 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             CalculateDrag();
 
             CaluclateAerodynamicEffect();
+            //Allow the player to move in the air
 
             CalculateLinearForces();
 
             CalculateTorque();
+            //Allow the player to move in the air
 
             CalculateAltitude();
         }
@@ -137,31 +158,11 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         }
 
 
-        /*private void AutoLevel()
-        {
-            // The banked turn amount (between -1 and 1) is the sine of the roll angle.
-            // this is an amount applied to elevator input if the user is only using the banking controls,
-            // because that's what people expect to happen in games!
-            m_BankedTurnAmount = Mathf.Sin(RollAngle);
-            // auto level roll, if there's no roll input:
-            if (RollInput == 0f)
-            {
-                RollInput = -RollAngle*m_AutoRollLevel;
-            }
-            // auto correct pitch, if no pitch input (but also apply the banked turn amount)
-            if (PitchInput == 0f)
-            {
-                PitchInput = -PitchAngle*m_AutoPitchLevel;
-                PitchInput -= Mathf.Abs(m_BankedTurnAmount*m_BankedTurnAmount*m_AutoTurnPitch);
-            }
-        }*/
-
-
         private void CalculateForwardSpeed()
         {
             // Forward speed is the speed in the planes's forward direction (not the same as its velocity, eg if falling in a stall)
             var localVelocity = transform.InverseTransformDirection(m_Rigidbody.velocity);
-            ForwardSpeed = Mathf.Max(0, localVelocity.y);
+            ForwardSpeed = Mathf.Max(0,localVelocity.y);
         }
 
 
@@ -169,16 +170,18 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         {
             // Adjust throttle based on throttle input (or immobilized state)
             //Throttle = Mathf.Clamp01(Throttle + ThrottleInput*Time.deltaTime*m_ThrottleChangeSpeed);
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Joystick1Button1) && Fuel > 0f && CanUseJetpack)
             {
+                m_MaxEnginePower = 40;
                 Throttle = booster_Torque;
-                Debug.Log("Booster");
+                Fuel -= Time.deltaTime * FuelReductionFactor;
             }
             else
                 Throttle = 1;
 
             // current engine power is just:
             EnginePower = Throttle*m_MaxEnginePower;
+            m_MaxEnginePower = 0;
         }
 
 
@@ -189,7 +192,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // Air brakes work by directly modifying drag. This part is actually pretty realistic!
             m_Rigidbody.drag = (AirBrakes ? (m_OriginalDrag + extraDrag)*m_AirBrakesEffect : m_OriginalDrag + extraDrag);
             // Forward speed affects angular drag - at high forward speed, it's much harder for the plane to spin
-            m_Rigidbody.angularDrag = m_OriginalAngularDrag*ForwardSpeed;
+            m_Rigidbody.angularDrag = m_OriginalAngularDrag * ForwardSpeed;
         }
 
 
@@ -255,7 +258,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // The total torque is multiplied by the forward speed, so the controls have more effect at high speed,
             // and little effect at low speed, or when not moving in the direction of the nose of the plane
             // (i.e. falling while stalled)
-            m_Rigidbody.AddTorque(torque*ForwardSpeed*m_AeroFactor);
+            m_Rigidbody.AddTorque(torque* rollMultiplier * m_AeroFactor);
         }
 
 
@@ -271,6 +274,12 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 Debug.Log("Chicken's Down");
             }
+        }
+
+        void Refill()
+        {
+            Fuel += Time.deltaTime * RefillSpeed;
+            if (Fuel >= MaxFuelCapacity) CanUseJetpack = true;
         }
     }
 }
