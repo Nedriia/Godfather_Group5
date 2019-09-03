@@ -36,6 +36,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public float booster_Torque = 10;
 
         [Header("Jetpack")]
+        public AudioSource jetpackSound;
         public float MaxFuelCapacity;
         public float FuelReductionFactor;
         public float RefillSpeed;
@@ -175,12 +176,22 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 m_MaxEnginePower = 40;
                 Throttle = booster_Torque;
                 Fuel -= Time.deltaTime * FuelReductionFactor;
+                if(!jetpackSound.isPlaying)
+                    jetpackSound.Play();
             }
-            else
+            else 
+            {
                 Throttle = 1;
+                //jetpackSound.Pause();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Joystick1Button1) || !CanUseJetpack)
+            {
+                jetpackSound.Pause();
+            }
 
             // current engine power is just:
-            EnginePower = Throttle*m_MaxEnginePower;
+                EnginePower = Throttle*m_MaxEnginePower;
             m_MaxEnginePower = 0;
         }
 
