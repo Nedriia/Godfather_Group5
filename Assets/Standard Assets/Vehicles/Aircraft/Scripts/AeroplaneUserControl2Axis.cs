@@ -55,8 +55,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 roll = -1;
                 var forces = Vector3.zero;
-                forces += speedOffFallingOneWing * engineSpeedMultiplier * -transform.up;
-                Debug.Log(forces);
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
                 //fermeture de l'aile à gauche
             }
@@ -64,8 +63,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 roll = 1;
                 var forces = Vector3.zero;
-                forces += speedOffFallingOneWing * engineSpeedMultiplier * -transform.up;
-                Debug.Log(forces);
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
                 //fermeture de l'aile à droite
             }
@@ -75,8 +73,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 //Fermeture des deux ailes
                 roll = 0;
                 var forces = Vector3.zero;
-                forces += speedOfFalling * engineSpeedMultiplier * -transform.up;
-                Debug.Log(forces);
+                forces += speedOfFalling * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
             }
 

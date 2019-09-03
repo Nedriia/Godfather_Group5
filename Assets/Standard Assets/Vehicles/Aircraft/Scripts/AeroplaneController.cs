@@ -272,7 +272,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             //Detect if i go on a building
             if (Altitude < crash_AltitudeLimit && hit.collider.name == "Plane")
             {
-                Debug.Log("Chicken's Down");
+                //Debug.Log("Chicken's Down");
             }
         }
 
