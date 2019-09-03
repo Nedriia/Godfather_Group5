@@ -33,7 +33,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField] private float speed;
         [SerializeField] private float crash_AltitudeLimit;
         [SerializeField] private float _altitude;
-        [SerializeField] private float booster_Torque = 10;
+        public float booster_Torque = 10;
 
         [Header("Jetpack")]
         public float MaxFuelCapacity;
@@ -55,8 +55,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public bool AirBrakes { get; private set; }                     // Whether or not the air brakes are being applied.
         [HideInInspector]
         public float ForwardSpeed;                // How fast the aeroplane is traveling in it's forward direction.
-        public float EnginePower { get; private set; }                  // How much power the engine is being given.
-        public float MaxEnginePower{ get { return m_MaxEnginePower; }}    // The maximum output of the engine.
+        public float EnginePower;               // How much power the engine is being given.
+        public float MaxEnginePower;   // The maximum output of the engine.
         public float RollAngle { get; private set; }
         public float PitchAngle { get; private set; }
         public float RollInput { get; private set; }

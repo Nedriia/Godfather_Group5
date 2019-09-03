@@ -20,6 +20,10 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public float lift1_wings;
         public float liftWithout_wings;
 
+        public float speedOfFalling;
+        public float speedOffFallingOneWing;
+        public float engineSpeedMultiplier;
+
         // reference to the aeroplane that we're controlling
         private AeroplaneController m_Aeroplane;
 
@@ -50,11 +54,19 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             else if (leftTrigger != 0)
             {
                 roll = -1;
+                var forces = Vector3.zero;
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * -transform.up;
+                Debug.Log(forces);
+                m_Aeroplane.m_Rigidbody.AddForce(forces);
                 //fermeture de l'aile à gauche
             }
             else if(rightTrigger != 0)
             {
                 roll = 1;
+                var forces = Vector3.zero;
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * -transform.up;
+                Debug.Log(forces);
+                m_Aeroplane.m_Rigidbody.AddForce(forces);
                 //fermeture de l'aile à droite
             }
             if(leftTrigger != 0 && rightTrigger !=0)
@@ -62,6 +74,10 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 //Chicken's falling
                 //Fermeture des deux ailes
                 roll = 0;
+                var forces = Vector3.zero;
+                forces += speedOfFalling * engineSpeedMultiplier * -transform.up;
+                Debug.Log(forces);
+                m_Aeroplane.m_Rigidbody.AddForce(forces);
             }
 
             float throttle = 1;
