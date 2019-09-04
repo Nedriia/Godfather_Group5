@@ -75,7 +75,6 @@ public class ScoreManager : MonoBehaviour
     {
         if (collision.transform.tag == "0" || collision.transform.tag == "100" || collision.transform.tag == "300" || collision.transform.tag == "900")
         {
-            Debug.Log(collision.transform.tag);
             ScorePerMultiplier++;
 
             Score += float.Parse(collision.transform.tag) * ScoreMultiplier;

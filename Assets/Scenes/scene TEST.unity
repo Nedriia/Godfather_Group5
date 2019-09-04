@@ -23247,6 +23247,16 @@ PrefabInstance:
       propertyPath: Canvas
       value: 
       objectReference: {fileID: 1436674434}
+    - target: {fileID: 898672879250111781, guid: 34988954b1e2c7746ba76504fe05c1dd,
+        type: 3}
+      propertyPath: stabilisation
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 898672879250111781, guid: 34988954b1e2c7746ba76504fe05c1dd,
+        type: 3}
+      propertyPath: stabilizationFactor
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 898672879239334134, guid: 34988954b1e2c7746ba76504fe05c1dd,
         type: 3}
       propertyPath: m_Enabled

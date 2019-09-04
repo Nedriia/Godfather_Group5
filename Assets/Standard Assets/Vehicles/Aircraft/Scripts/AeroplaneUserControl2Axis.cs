@@ -24,13 +24,16 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public float speedOffFallingOneWing;
         public float engineSpeedMultiplier;
 
+        [Header("Stabilization")]
+        public float stabilizationFactor;
+
         // reference to the aeroplane that we're controlling
         private AeroplaneController m_Aeroplane;
 
         private Animator AnimatorController;
 
         private void Awake()
-        {
+        {       
             // Set up the reference to the aeroplane controller.
             m_Aeroplane = GetComponent<AeroplaneController>();
             AnimatorController = GetComponent<Animator>();
@@ -79,6 +82,9 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 var forces = Vector3.zero;
                 forces += speedOfFalling * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
+                Quaternion from = transform.rotation;
+                Quaternion to = Quaternion.Euler(new Vector3(0, -90, 0));
+                transform.rotation = Quaternion.Lerp(from, to, Time.deltaTime * stabilizationFactor);
             }
 
             float throttle = 1;
