@@ -36,6 +36,11 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public float booster_Torque = 10;
         public float enginePowerNew = 10;
 
+        private Vector3 oldZ;
+        private Vector3 newZ;
+        public bool backward = false;
+        public bool forward = false;
+
         [Header("Jetpack")]
         public AudioSource jetpackSound;
         public GameObject particles;
@@ -76,6 +81,23 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // Store original drag settings, these are modified during flight.
             m_OriginalDrag = m_Rigidbody.drag;
             m_OriginalAngularDrag = m_Rigidbody.angularDrag;
+        }
+
+        private void Update()
+        {
+            newZ = transform.position;
+            if (oldZ.x > newZ.x)
+            {
+                forward = true;
+                backward = false;
+                oldZ = newZ;
+            }
+            else if (oldZ.x < newZ.x)
+            {
+                forward = false;
+                backward = true;
+                oldZ = newZ;
+            }
         }
 
 
@@ -175,7 +197,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         {
             // Adjust throttle based on throttle input (or immobilized state)
             //Throttle = Mathf.Clamp01(Throttle + ThrottleInput*Time.deltaTime*m_ThrottleChangeSpeed);
-            if (Input.GetKey(KeyCode.Joystick1Button1))
+            
+            if (Input.GetKey(KeyCode.Joystick1Button1) && !backward && forward)
             {
                 m_MaxEnginePower = 40;
                 Throttle = booster_Torque;
@@ -187,7 +210,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 Throttle = 1;
                 particles.SetActive(false);
-                //jetpackSound.Pause();
+                jetpackSound.Pause();
             }
 
             if (Input.GetKeyUp(KeyCode.Joystick1Button1))

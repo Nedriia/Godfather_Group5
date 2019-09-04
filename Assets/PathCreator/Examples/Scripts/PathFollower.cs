@@ -37,7 +37,7 @@ namespace PathCreation.Examples
                 
                 diff = Vector3.Distance(joueur.transform.position, transform.position);
 
-                Debug.Log("Distance : " + diff);
+                //Debug.Log("Distance : " + diff);
 
                 if ( diff > distanceAttenteJoueur && !estRalenti)
                 {
