@@ -27,10 +27,13 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         // reference to the aeroplane that we're controlling
         private AeroplaneController m_Aeroplane;
 
+        private Animator AnimatorController;
+
         private void Awake()
         {
             // Set up the reference to the aeroplane controller.
             m_Aeroplane = GetComponent<AeroplaneController>();
+            AnimatorController = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
