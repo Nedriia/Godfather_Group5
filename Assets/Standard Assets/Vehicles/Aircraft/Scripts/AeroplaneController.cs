@@ -281,10 +281,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             RaycastHit hit;
             Altitude = Physics.Raycast(ray, out hit) ? hit.distance : transform.position.y;
             //Detect if i go on a building
-            if (Altitude < crash_AltitudeLimit && hit.collider.name == "Plane")
-            {
-                //Debug.Log("Chicken's Down");
-            }
+
         }
 
         void Refill()
