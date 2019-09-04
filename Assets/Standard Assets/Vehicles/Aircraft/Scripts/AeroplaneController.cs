@@ -186,7 +186,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             else 
             {
                 Throttle = 1;
-                particles.SetActive(false);
+                //particles.SetActive(false);
                 //jetpackSound.Pause();
             }
 

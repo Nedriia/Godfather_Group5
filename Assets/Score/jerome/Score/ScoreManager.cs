@@ -73,20 +73,21 @@ public class ScoreManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
-        /*if (float.Parse(collision.transform.tag) > 0)
+        if (collision.transform.tag == "0" || collision.transform.tag == "100" || collision.transform.tag == "300" || collision.transform.tag == "900")
         {
-
+            Debug.Log(collision.transform.tag);
             ScorePerMultiplier++;
 
             Score += float.Parse(collision.transform.tag) * ScoreMultiplier;
 
             GameObject InstantiatedText = Instantiate(AddScoreText);
             InstantiatedText.transform.SetParent(Canvas.transform);
-            InstantiatedText.GetComponent<Text>().text = "+" + float.Parse(collision.transform.tag) * ScoreMultiplier;
-            
-        }*/
-
+            InstantiatedText.GetComponent<Text>().text = "+" + float.Parse(collision.transform.tag) * ScoreMultiplier;        
+        }
+        else
+        {
+            Debug.Log("Do Nothing");
+        }
     }
 
     IEnumerator ChangeMultiplier()

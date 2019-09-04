@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public void Replay()
     {
 
-        SceneManager.LoadScene("sample");
+        SceneManager.LoadScene("scene TEST");
 
     }
 
