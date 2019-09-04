@@ -37,14 +37,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
         [Header("Jetpack")]
         public AudioSource jetpackSound;
-        public float MaxFuelCapacity;
-        public float FuelReductionFactor;
-        public float RefillSpeed;
-        public KeyCode ActivateJetpackInput;
         public GameObject particles;
-        public Image Jauge;
-        float Fuel;
-        bool CanUseJetpack;
 
         [Header("Roll multiplier")]
         public float rollMultiplier;
@@ -82,19 +75,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // Store original drag settings, these are modified during flight.
             m_OriginalDrag = m_Rigidbody.drag;
             m_OriginalAngularDrag = m_Rigidbody.angularDrag;
-
-            Fuel = MaxFuelCapacity;
-            CanUseJetpack = true;
         }
 
-        private void Update()
-        {
-            if (Fuel <= 0) CanUseJetpack = false;
-
-            if (!CanUseJetpack) Refill();
-
-            Jauge.GetComponent<Image>().fillAmount = Fuel / MaxFuelCapacity;
-        }
 
         public void Move(float rollInput, float pitchInput, float yawInput, float throttleInput, bool airBrakes)
         {
@@ -172,11 +154,10 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         {
             // Adjust throttle based on throttle input (or immobilized state)
             //Throttle = Mathf.Clamp01(Throttle + ThrottleInput*Time.deltaTime*m_ThrottleChangeSpeed);
-            if (Input.GetKey(KeyCode.Joystick1Button1) && Fuel > 0f && CanUseJetpack)
+            if (Input.GetKey(KeyCode.Joystick1Button1))
             {
                 m_MaxEnginePower = 40;
                 Throttle = booster_Torque;
-                Fuel -= Time.deltaTime * FuelReductionFactor;
                 if(!jetpackSound.isPlaying)
                     jetpackSound.Play();
                 particles.SetActive(true);
@@ -188,7 +169,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 //jetpackSound.Pause();
             }
 
-            if (Input.GetKeyUp(KeyCode.Joystick1Button1) || !CanUseJetpack)
+            if (Input.GetKeyUp(KeyCode.Joystick1Button1))
             {
                 jetpackSound.Pause();
             }
@@ -285,12 +266,6 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             Altitude = Physics.Raycast(ray, out hit) ? hit.distance : transform.position.y;
             //Detect if i go on a building
 
-        }
-
-        void Refill()
-        {
-            Fuel += Time.deltaTime * RefillSpeed;
-            if (Fuel >= MaxFuelCapacity) CanUseJetpack = true;
         }
     }
 }

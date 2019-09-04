@@ -58,5 +58,14 @@ namespace PathCreation.Examples
         void OnPathChanged() {
             distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            /*if(tag == player)
+            {
+                scenemanagement.load();
+
+            }*/
+        }
     }
 }
