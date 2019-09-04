@@ -74,7 +74,7 @@ public class ScoreManager : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (float.Parse(collision.transform.tag) > 0)
+        /*if (float.Parse(collision.transform.tag) > 0)
         {
 
             ScorePerMultiplier++;
@@ -84,8 +84,8 @@ public class ScoreManager : MonoBehaviour
             GameObject InstantiatedText = Instantiate(AddScoreText);
             InstantiatedText.transform.SetParent(Canvas.transform);
             InstantiatedText.GetComponent<Text>().text = "+" + float.Parse(collision.transform.tag) * ScoreMultiplier;
-
-        }
+            
+        }*/
 
     }
 

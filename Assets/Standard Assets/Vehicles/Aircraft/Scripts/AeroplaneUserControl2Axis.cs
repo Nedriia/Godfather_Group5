@@ -40,6 +40,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         {
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
             float pitch = CrossPlatformInputManager.GetAxis("Vertical");
+            float yawInput = CrossPlatformInputManager.GetAxis("Horizontal");
             float roll = 0;
             //Set back the value of roll level of aeroplaneController
 
@@ -83,7 +84,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             float throttle = 1;
 
             // Pass the input to the aeroplane
-            m_Aeroplane.Move(roll, pitch, 0, throttle, false);
+            m_Aeroplane.Move(roll, pitch, yawInput, throttle, false);
         }
     }
 }
