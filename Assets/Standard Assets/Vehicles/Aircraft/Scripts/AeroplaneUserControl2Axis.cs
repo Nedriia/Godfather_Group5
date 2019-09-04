@@ -40,8 +40,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         {
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
             float pitch = CrossPlatformInputManager.GetAxis("Vertical");
-            float yawInput = CrossPlatformInputManager.GetAxis("Horizontal");
-            float roll = 0;
+            float roll = CrossPlatformInputManager.GetAxis("Horizontal");
+            float yawInput = 0;
             //Set back the value of roll level of aeroplaneController
 
             leftTrigger = Input.GetAxis("LeftTrigger");
@@ -57,7 +57,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             }
             else if (leftTrigger != 0)
             {
-                roll = -1;
+                yawInput = -1;
                 var forces = Vector3.zero;
                 forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
@@ -65,7 +65,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             }
             else if(rightTrigger != 0)
             {
-                roll = 1;
+                yawInput = 1;
                 var forces = Vector3.zero;
                 forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);
@@ -75,7 +75,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 //Chicken's falling
                 //Fermeture des deux ailes
-                roll = 0;
+                yawInput = 0;
                 var forces = Vector3.zero;
                 forces += speedOfFalling * engineSpeedMultiplier * Vector3.down;
                 m_Aeroplane.m_Rigidbody.AddForce(forces);

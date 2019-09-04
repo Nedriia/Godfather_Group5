@@ -108,6 +108,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             //Allow the player to move in the air
 
             CalculateAltitude();
+
+            AutoLevel();
         }
 
 
@@ -149,6 +151,24 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             ForwardSpeed = Mathf.Max(0,localVelocity.y);
         }
 
+        private void AutoLevel()
+        {
+            // The banked turn amount (between -1 and 1) is the sine of the roll angle.
+            // this is an amount applied to elevator input if the user is only using the banking controls,
+            // because that's what people expect to happen in games!
+            m_BankedTurnAmount = Mathf.Sin(RollAngle);
+            // auto level roll, if there's no roll input:
+            if (RollInput == 0f)
+            {
+                RollInput = -RollAngle * m_AutoRollLevel;
+            }
+            // auto correct pitch, if no pitch input (but also apply the banked turn amount)
+            if (PitchInput == 0f)
+            {
+                PitchInput = -PitchAngle * m_AutoPitchLevel;
+                PitchInput -= Mathf.Abs(m_BankedTurnAmount * m_BankedTurnAmount * m_AutoTurnPitch);
+            }
+        }
 
         private void ControlThrottle()
         {
@@ -222,7 +242,6 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // Now calculate forces acting on the aeroplane:
             // we accumulate forces into this variable:
             var forces = Vector3.zero;
-            // Add the engine power in the forward direction
             forces += EnginePower*transform.up;
             // The direction that the lift force is applied is at right angles to the plane's velocity (usually, this is 'up'!)
             var liftDirection = Vector3.Cross(m_Rigidbody.velocity, transform.right).normalized;
