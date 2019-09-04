@@ -84,10 +84,6 @@ public class ScoreManager : MonoBehaviour
             InstantiatedText.transform.SetParent(Canvas.transform);
             InstantiatedText.GetComponent<Text>().text = "+" + float.Parse(collision.transform.tag) * ScoreMultiplier;        
         }
-        else
-        {
-            Debug.Log("Do Nothing");
-        }
     }
 
     IEnumerator ChangeMultiplier()
