@@ -41,6 +41,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public float FuelReductionFactor;
         public float RefillSpeed;
         public KeyCode ActivateJetpackInput;
+        public GameObject particles;
         public Image Jauge;
         float Fuel;
         bool CanUseJetpack;
@@ -178,10 +179,12 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
                 Fuel -= Time.deltaTime * FuelReductionFactor;
                 if(!jetpackSound.isPlaying)
                     jetpackSound.Play();
+                particles.SetActive(true);
             }
             else 
             {
                 Throttle = 1;
+                particles.SetActive(false);
                 //jetpackSound.Pause();
             }
 
