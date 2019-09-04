@@ -34,6 +34,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField] private float crash_AltitudeLimit;
         [SerializeField] private float _altitude;
         public float booster_Torque = 10;
+        public float enginePowerNew = 10;
 
         [Header("Jetpack")]
         public AudioSource jetpackSound;
@@ -242,6 +243,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // Now calculate forces acting on the aeroplane:
             // we accumulate forces into this variable:
             var forces = Vector3.zero;
+            var newForces = Vector3.left * enginePowerNew;
             forces += EnginePower*transform.up;
             // The direction that the lift force is applied is at right angles to the plane's velocity (usually, this is 'up'!)
             var liftDirection = Vector3.Cross(m_Rigidbody.velocity, transform.right).normalized;
@@ -254,6 +256,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             forces += liftPower*liftDirection;
             // Apply the calculated forces to the the Rigidbody
             m_Rigidbody.AddForce(forces);
+            m_Rigidbody.AddForce(newForces);
         }
 
 
