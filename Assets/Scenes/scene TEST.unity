@@ -25183,7 +25183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -29249,13 +29249,17 @@ PrefabInstance:
     - target: {fileID: 1015219401, guid: 0c7db9714131b264f9bcab81016fed01, type: 3}
       propertyPath: Story
       value: 
-      objectReference: {fileID: 21300000, guid: b3bad44183fecbf4c92016fd38081c3c,
+      objectReference: {fileID: 21300000, guid: 131bc233e6c3c294b8ac0f6c0e430e8c,
         type: 3}
     - target: {fileID: 1015219401, guid: 0c7db9714131b264f9bcab81016fed01, type: 3}
       propertyPath: Controls
       value: 
-      objectReference: {fileID: 21300000, guid: 7d6d5225d5a2b40e3959b66d13b6e29c,
+      objectReference: {fileID: 21300000, guid: 0740e0d88ab29234c989d9601412061d,
         type: 3}
+    - target: {fileID: 1015219401, guid: 0c7db9714131b264f9bcab81016fed01, type: 3}
+      propertyPath: cooldownMax
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 6759570920350103397, guid: 0c7db9714131b264f9bcab81016fed01,
         type: 3}
       propertyPath: m_LocalPosition.x
