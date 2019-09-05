@@ -12,14 +12,42 @@ public class GameManager : MonoBehaviour
 
     float VerticalOffset;
     bool IsPaused;
+
+    public Image ImageDispenser;
+    public Sprite Story;
+    public Sprite Controls;
+    public float cooldown, cooldownMax;
+    public bool image = false;
     
     void Start()
     {
-        IsPaused = false;
+        /*IsPaused = true;
+        ImageDispenser.sprite = Story;
+        StartCoroutine(WaitSprite(2));*/
+        IsPaused = true;
+        ImageDispenser.sprite = Story;
     }
 
     void Update()
     {
+        if (image)
+        {
+            cooldown += Time.frameCount;
+        }
+        if (Input.GetKey(KeyCode.Joystick1Button1) && IsPaused && ImageDispenser.enabled)
+        {
+            if(ImageDispenser.sprite == Story)
+            {
+                ImageDispenser.sprite = Controls;
+                image = true;
+                
+            }
+            if(ImageDispenser.sprite == Controls && cooldown > cooldownMax)
+            {
+                ImageDispenser.enabled = false;
+                IsPaused = false;
+            }
+        }
 
         if (IsPaused)
         {
@@ -47,23 +75,17 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
-
         Application.Quit();
-
     }
 
     public void Replay()
     {
-
         SceneManager.LoadScene("scene TEST");
-
     }
 
     public void MainMenu()
     {
-
         SceneManager.LoadScene("MainMenu");
-
     }
 
     public void Resume()
@@ -71,6 +93,13 @@ public class GameManager : MonoBehaviour
 
         IsPaused = false;
 
+    }
+
+    IEnumerator WaitSprite(float value)
+    {
+        yield return new WaitForSeconds(value);
+        Debug.Log("allo");
+        ImageDispenser.enabled = false;
     }
 
 }

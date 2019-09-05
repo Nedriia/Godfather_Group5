@@ -22,18 +22,30 @@ public class ScoreManager : MonoBehaviour
 
     int TargetSize = 100;
 
+    [Header("Input value")]
+    public float leftTrigger;
+    public float rightTrigger;
+
     void Start()
     {
-
         Cooldown = MaxCooldown;
         ScoreMultiplier = 1;
-
     }
 
     void Update()
     {
+        leftTrigger = Input.GetAxis("LeftTrigger");
+        rightTrigger = Input.GetAxis("RightTrigger");
 
-        ScoreText[0].text = Score.ToString();
+        leftTrigger = Mathf.Clamp(leftTrigger, 0, 1);
+        rightTrigger = Mathf.Clamp(rightTrigger, 0, 1);
+
+        if (leftTrigger != 0 && rightTrigger != 0)
+        {
+            ScoreMultiplier = 0;
+        }
+
+            ScoreText[0].text = Score.ToString();
         ScoreText[1].text = Score.ToString();
 
         ScoreMultiplierText[0].text = "x" + ScoreMultiplier;
