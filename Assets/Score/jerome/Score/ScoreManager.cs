@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.PostProcessing;
 
 public class ScoreManager : MonoBehaviour
 {
-
+    public PostProcessingBehaviour test;
     float Score;
     int ScoreMultiplier;
     public Text[] ScoreText;
@@ -28,8 +29,13 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        test = Camera.main.GetComponent<PostProcessingBehaviour>();
         Cooldown = MaxCooldown;
         ScoreMultiplier = 1;
+        var testtest = test.profile.chromaticAberration.settings;
+        testtest.intensity = 1;
+        test.profile.chromaticAberration.settings = testtest;
+        
     }
 
     void Update()
