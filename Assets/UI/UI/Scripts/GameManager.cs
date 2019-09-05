@@ -21,9 +21,6 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        /*IsPaused = true;
-        ImageDispenser.sprite = Story;
-        StartCoroutine(WaitSprite(2));*/
         IsPaused = true;
         ImageDispenser.sprite = Story;
     }
@@ -80,7 +77,7 @@ public class GameManager : MonoBehaviour
 
     public void Replay()
     {
-        SceneManager.LoadScene("scene TEST");
+        SceneManager.LoadScene("scene TEST 2");
     }
 
     public void MainMenu()
@@ -93,13 +90,6 @@ public class GameManager : MonoBehaviour
 
         IsPaused = false;
 
-    }
-
-    IEnumerator WaitSprite(float value)
-    {
-        yield return new WaitForSeconds(value);
-        Debug.Log("allo");
-        ImageDispenser.enabled = false;
     }
 
 }

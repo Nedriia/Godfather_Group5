@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
 {
     public void loadLevel()
     {
-        SceneManager.LoadScene("scene TEST");
+        SceneManager.LoadScene("scene TEST 2");
     }
 
     public void quit()

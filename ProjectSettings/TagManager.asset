@@ -8,6 +8,8 @@ TagManager:
   - 100
   - 900
   - 0
+  - finish
+  - 50
   layers:
   - Default
   - TransparentFX

@@ -42,6 +42,7 @@ namespace PathCreation.Examples
                 if ( diff > distanceAttenteJoueur && !estRalenti)
                 {
                     estRalenti = true;
+                    //speed = Mathf.Lerp(speed,speedWait,Time.deltaTime * 2);
                     speed = speedWait;
                 }
 

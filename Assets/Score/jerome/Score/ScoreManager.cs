@@ -29,12 +29,12 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        test = Camera.main.GetComponent<PostProcessingBehaviour>();
+        //test = Camera.main.GetComponent<PostProcessingBehaviour>();
         Cooldown = MaxCooldown;
         ScoreMultiplier = 1;
-        var testtest = test.profile.chromaticAberration.settings;
+        /*var testtest = test.profile.chromaticAberration.settings;
         testtest.intensity = 1;
-        test.profile.chromaticAberration.settings = testtest;
+        test.profile.chromaticAberration.settings = testtest;*/
         
     }
 
