@@ -29,7 +29,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 var testtest = test.profile.chromaticAberration.settings;
                 chroma += 1.5f * Time.deltaTime;
-                chroma = Mathf.Clamp(chroma, 0,1.5f);
+                chroma = Mathf.Clamp(chroma, 0,1.25f);
                 testtest.intensity = chroma;
                 test.profile.chromaticAberration.settings = testtest;
             }
@@ -37,7 +37,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             {
                 var testtest = test.profile.chromaticAberration.settings;
                 chroma -= 3f * Time.deltaTime;
-                chroma = Mathf.Clamp(chroma, 0, 1.5f);
+                chroma = Mathf.Clamp(chroma, 0, 1.25f);
                 testtest.intensity = chroma;
                 test.profile.chromaticAberration.settings = testtest;
             }
