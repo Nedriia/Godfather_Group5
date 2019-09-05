@@ -30,13 +30,12 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         // reference to the aeroplane that we're controlling
         private AeroplaneController m_Aeroplane;
 
-        private Animator AnimatorController;
+        public Animator AnimatorController;
 
         private void Awake()
         {       
             // Set up the reference to the aeroplane controller.
             m_Aeroplane = GetComponent<AeroplaneController>();
-            AnimatorController = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
@@ -52,6 +51,32 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
             leftTrigger = Mathf.Clamp(leftTrigger, 0, 1);
             rightTrigger = Mathf.Clamp(rightTrigger, 0, 1);
+
+            if (roll < -0.3f)
+            {
+                var forces = Vector3.zero;
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
+                m_Aeroplane.m_Rigidbody.AddForce(forces);
+                //fermeture de l'aile à gauche
+                AnimatorController.SetBool("LeftTrigger", true);
+                AnimatorController.SetBool("RightTrigger", false);
+            }
+            else if (roll > 0.3f)
+            {
+                var forces = Vector3.zero;
+                forces += speedOffFallingOneWing * engineSpeedMultiplier * Vector3.down;
+                m_Aeroplane.m_Rigidbody.AddForce(forces);
+                //fermeture de l'aile à droite
+                AnimatorController.SetBool("RightTrigger", true);
+                AnimatorController.SetBool("LeftTrigger", false);
+            }
+            else
+            {
+                roll = 0;
+                //Ouvrir les ailes
+                AnimatorController.SetBool("LeftTrigger", false);
+                AnimatorController.SetBool("RightTrigger", false);
+            }
 
             if (leftTrigger == 0 && rightTrigger == 0)
             {
