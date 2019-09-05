@@ -101,6 +101,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             }
             if(leftTrigger != 0 && rightTrigger !=0)
             {
+                Debug.Log("zzzzz");
                 //Chicken's falling
                 //Fermeture des deux ailes
                 yawInput = 0;

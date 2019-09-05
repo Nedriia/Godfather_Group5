@@ -10,26 +10,35 @@ public class car_move_colider : MonoBehaviour
     public float force;
     public bool ismove;
     public float force_chute = -50f;
-    bool isTouch = false;
+    Rigidbody car;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        car = GetComponent<Rigidbody>();
     }
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name != "Plane")
+        if (collision.gameObject.tag == "Player")
         {
-            isTouch = true;
-            GetComponent<Rigidbody>().AddExplosionForce(force , collision.contacts[0].point , 200, 0.0f);
+            car.isKinematic = false;
+            car.AddExplosionForce(force, collision.contacts[0].point, 200, 0.0f);
         }
+        else if (collision.gameObject.name != "Plane" && ismove )
+        {
+            car.AddExplosionForce(force , collision.contacts[0].point , 200, 0.0f);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ismove) GetComponent<Rigidbody>().AddForce(transform.forward * speedCar);
-        GetComponent<Rigidbody>().AddForce(0, force_chute, 0);
+        if (ismove)
+        {
+            car.isKinematic = false;
+            car.AddForce(transform.forward * speedCar);
+        }
+        car.AddForce(0, force_chute, 0);
     }
 }

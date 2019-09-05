@@ -11,10 +11,12 @@ public class throw_rock : MonoBehaviour
     public float forceZ;
     public float forceChute;
 
+    Rigidbody rock;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rock = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -22,9 +24,10 @@ public class throw_rock : MonoBehaviour
     {
         if (isThrow)
         {
-            GetComponent<Rigidbody>().AddRelativeForce(forceX, forceY, forceZ);
+            rock.isKinematic = false;
+            rock.AddRelativeForce(forceX, forceY, forceZ);
             isThrow = false;
         }
-        GetComponent<Rigidbody>().AddForce(0, forceChute, 0);
+        rock.AddForce(0, forceChute, 0);
     }
 }
