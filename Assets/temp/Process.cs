@@ -28,14 +28,16 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             if(chicken.EnginePower > 1)
             {
                 var testtest = test.profile.chromaticAberration.settings;
-                chroma += 0.5f * Time.deltaTime;
+                chroma += 1.5f * Time.deltaTime;
+                chroma = Mathf.Clamp(chroma, 0,1.5f);
                 testtest.intensity = chroma;
                 test.profile.chromaticAberration.settings = testtest;
             }
             else
             {
                 var testtest = test.profile.chromaticAberration.settings;
-                chroma -= 0.5f * Time.deltaTime;
+                chroma -= 3f * Time.deltaTime;
+                chroma = Mathf.Clamp(chroma, 0, 1.5f);
                 testtest.intensity = chroma;
                 test.profile.chromaticAberration.settings = testtest;
             }
